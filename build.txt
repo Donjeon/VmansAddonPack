@@ -1,0 +1,3 @@
+displayName = Vman's Addon Pack
+author = Vman
+version = 0.1
