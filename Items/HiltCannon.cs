@@ -47,7 +47,7 @@ namespace VmansAddonPack.Items
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.DirtBlock, 1);
-			recipe.AddTile(TileID.Pianos);
+			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
