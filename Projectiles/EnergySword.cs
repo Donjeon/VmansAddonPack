@@ -45,7 +45,7 @@ namespace VmansAddonPack.Projectiles
 
         public override void AI()
         {
-   
+
 
             projectile.ai[0] += 1f; //how many pixels it has travelled????
             if (projectile.ai[0] < 50f)
@@ -68,7 +68,7 @@ namespace VmansAddonPack.Projectiles
             }
 
 
-            if(true) //always the case, done so i can see the stuff
+            if (true) //always the case, done so i can see the stuff
             {
                 Lighting.AddLight(projectile.Center, 0.6f, 0.2f, 1f); // R G B values from 0 to 1f. This makes purple of #9933ff
 
@@ -91,6 +91,44 @@ namespace VmansAddonPack.Projectiles
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 21, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default(Color), 0.7f);
             }
 
+            /*
+            if (true) //if the projectile exists [Qwerty Stuff]
+            {
+
+
+                //for (int i = 0; i < 200; i++) //HOming properties
+                //{
+                //    NPC target = Main.npc[i];
+
+
+                if (UsefulMethods.ClosestNPC(ref this.prey, 10000, projectile.Center))
+                {
+                    shootDirection = (projectile.Center - prey.Center).ToRotation() - (float)Math.PI;
+                }
+                else
+                {
+                    shootDirection = projectile.ai[1] - (float)Math.PI;
+                }
+
+
+                actDirection = UsefulMethods.SlowRotation(actDirection, shootDirection, 4);
+                projectile.velocity.X = (float)Math.Cos(actDirection) * shootSpeed;
+                projectile.velocity.Y = (float)Math.Sin(actDirection) * shootSpeed;
+                projectile.rotation = actDirection + (float)Math.PI / 2;
+                actDirection = projectile.velocity.ToRotation();
+                
+                
+
+                
+                    else
+                    {
+                    actDirection = projectile.velocity.ToRotation();
+                    }
+            }
+            */
+
+
+
 
             if (true) //if the projectile exists
             {
@@ -100,55 +138,20 @@ namespace VmansAddonPack.Projectiles
                 {
                     NPC target = Main.npc[i];
 
-
-                    if (UsefulMethods.ClosestNPC(ref this.prey, 10000, projectile.Center))
+                    if (target.CanBeChasedBy()) //if the target can be chased by this projectile
                     {
-                        shootDirection = (projectile.Center - prey.Center).ToRotation() - (float)Math.PI;
-                    }
-                    else
-                    {
-                        shootDirection = projectile.ai[1] - (float)Math.PI;
-                    }
+                        //Get the shoot trajectory from the projectile and target
+                        float shootToX = target.position.X + (float)target.width * 0.5f - projectile.Center.X;
+                        float shootToY = target.position.Y + (float)target.height * 0.5f - projectile.Center.Y;//- projectile.Center.Y; 
+
+                        float Num = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - shootToX) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - shootToY); //AI taken from chlorophyte and adapted, Projectile.cs, line 31413
+
+                        float distance = (float)System.Math.Sqrt((double)(shootToX * shootToX + shootToY * shootToY));
 
 
-                    actDirection = UsefulMethods.SlowRotation(actDirection, shootDirection, 4);
-                    projectile.velocity.X = (float)Math.Cos(actDirection) * shootSpeed;
-                    projectile.velocity.Y = (float)Math.Sin(actDirection) * shootSpeed;
-                    projectile.rotation = actDirection + (float)Math.PI / 2;
-                    actDirection = projectile.velocity.ToRotation();
-
-                
-                    else
-                    {
-                        actDirection = projectile.velocity.ToRotation();
-                    }
-                }
-            }
-
-
-        /*
-        if (true) //if the projectile exists
-        {
-
-
-            for (int i = 0; i < 200; i++) //HOming properties
-            {
-                NPC target = Main.npc[i];
-
-                if (target.CanBeChasedBy()) //if the target can be chased by this projectile
-                {
-                    //Get the shoot trajectory from the projectile and target
-                    float shootToX = target.position.X + (float)target.width * 0.5f - projectile.Center.X; 
-                    float shootToY = target.position.Y + (float)target.height * 0.5f - projectile.Center.Y;//- projectile.Center.Y; 
-
-                    float Num = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - shootToX) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - shootToY); //AI taken from chlorophyte and adapted, Projectile.cs, line 31413
-
-                    float distance = (float)System.Math.Sqrt((double)(shootToX * shootToX + shootToY * shootToY));
-
-
-                    //If the distance between the live targeted npc and the projectile is less than 240 pixels
-                    if (distance < 240f && target.active && Collision.CanHit(new Vector2(projectile.position.X + (float)(projectile.width / 2), projectile.position.Y + (float)(projectile.height / 2)), 1, 1, target.position, target.width, target.height))
-                    {
+                        //If the distance between the live targeted npc and the projectile is less than 240 pixels
+                        if (distance < 240f && target.active && Collision.CanHit(new Vector2(projectile.position.X + (float)(projectile.width / 2), projectile.position.Y + (float)(projectile.height / 2)), 1, 1, target.position, target.width, target.height))
+                        {
 
                             //Divide the factor, 3f, which is the desired velocity
                             distance = 3f / distance;
@@ -161,16 +164,16 @@ namespace VmansAddonPack.Projectiles
                             projectile.velocity.X = shootToX; //Go to this X position at the speed of ([the distance] * 5)
                             projectile.velocity.Y = shootToY;
 
+                        }
+
+
                     }
-
-
                 }
+
             }
 
-        }
-        */
 
-    }
+        }
         /*
         public void Kill() //Do something when it dies
         {
@@ -179,6 +182,7 @@ namespace VmansAddonPack.Projectiles
         }
         //TODO: Get a proper sound to play on death and an explosion like jester arrows
         */
+
 
     }
 }
