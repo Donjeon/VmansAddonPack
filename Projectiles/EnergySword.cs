@@ -22,7 +22,7 @@ namespace VmansAddonPack.Projectiles
             projectile.aiStyle = 27; //take the AI of beam sword
             projectile.friendly = true;
             projectile.ranged = true;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(0f);
             aiType = 156;
 
             /*
@@ -38,6 +38,8 @@ namespace VmansAddonPack.Projectiles
 
         }
 
+        public int wanderTimer = 61;
+        public bool runOnce = true;
         public float shootDirection;
         public float actDirection;
         public float shootSpeed = 12;
@@ -45,7 +47,35 @@ namespace VmansAddonPack.Projectiles
 
         public override void AI()
         {
-            projectile.velocity.ToRotation();
+            if (runOnce)
+            {
+
+                actDirection = projectile.velocity.ToRotation();
+                projectile.velocity /= 5;
+                runOnce = false;
+            }
+
+            wanderTimer++;
+            if (wanderTimer > 60)
+            {
+                if (Main.netMode == 1 && projectile.owner == Main.myPlayer)
+                {
+                    projectile.ai[1] = Main.rand.NextFloat(2 * (float)Math.PI);
+
+                    if (Main.netMode == 1)
+                    {
+                        QwertysRandomContent.ProjectileAIUpdate(projectile);
+                    }
+
+                    projectile.netUpdate = true;
+                }
+                else if (Main.netMode == 0)
+                {
+                    projectile.ai[1] = Main.rand.NextFloat(2 * (float)Math.PI);
+                }
+                wanderTimer = 0;
+
+            }
 
             for (int i = 0; i < 200; i++) //cycle through the list of all AI that exist
             {
