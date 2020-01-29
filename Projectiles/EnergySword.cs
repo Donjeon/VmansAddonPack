@@ -38,18 +38,44 @@ namespace VmansAddonPack.Projectiles
 
         }
 
-        float shootDirection;
-        float actDirection;
-        float shootSpeed = 12;
-        NPC prey;
+        public float shootDirection;
+        public float actDirection;
+        public float shootSpeed = 12;
+        public NPC prey;
 
         public override void AI()
         {
-
-            if (true) //if the projectile exists
+            for (int i = 0; i < 200; i++) //cycle through the list of all AI that exist
             {
+                NPC target = Main.npc[i];
 
+                //(Credit to ExampleMod https://github.com/tModLoader/tModLoader/tree/master/ExampleMod and Qwerty https://github.com/qwerty3-14/QwertysRandomContent for this AI and the relevant methods)
+                if (target.CanBeChasedBy()) //if the projectile exists (Prey does not exist and is null)
+                {
 
+                    if (UsefulMethods.ClosestNPC(ref prey, 480, projectile.Center)) //number is the range of the homing effect
+                    {
+                        shootDirection = (projectile.Center - prey.Center).ToRotation() - (float)Math.PI;
+                    }
+                    else
+                    {
+                        shootDirection = projectile.ai[1] - (float)Math.PI;
+                    }
+
+                    actDirection = UsefulMethods.SlowRotation(actDirection, shootDirection, 12);
+                    projectile.velocity.X = (float)Math.Cos(actDirection) * shootSpeed;
+                    projectile.velocity.Y = (float)Math.Sin(actDirection) * shootSpeed;
+                    projectile.rotation = actDirection + (float)Math.PI / 2;
+                    actDirection = projectile.velocity.ToRotation();
+
+                }
+                else
+                {
+                    actDirection = projectile.velocity.ToRotation();
+                }
+
+            }
+                /*
                 for (int i = 0; i < 200; i++) //HOming properties
                 {
                     NPC target = Main.npc[i];
@@ -65,7 +91,8 @@ namespace VmansAddonPack.Projectiles
                         float distance = (float)System.Math.Sqrt((double)(shootToX * shootToX + shootToY * shootToY));
 
 
-                        //If the distance between the live targeted npc and the projectile is less than 240 pixels
+
+                        //If the distance between the live targeted npc and the projectile is less than 240 pixels (Credit to ExampleMod https://github.com/tModLoader/tModLoader/tree/master/ExampleMod and Qwerty https://github.com/qwerty3-14/QwertysRandomContent)
                         if (distance < 240f && target.active && Collision.CanHit(new Vector2(projectile.position.X + (float)(projectile.width / 2), projectile.position.Y + (float)(projectile.height / 2)), 1, 1, target.position, target.width, target.height))
                         {
 
@@ -85,8 +112,9 @@ namespace VmansAddonPack.Projectiles
 
                     }
                 }
+                */
 
-            }
+            
 
             projectile.ai[0] += 1f; //how many pixels it has travelled????
             if (projectile.ai[0] < 50f)

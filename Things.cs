@@ -70,32 +70,7 @@ namespace VmansAddonPack
             }
             return foundTarget;
 
-            /*
-            if (true) //if the projectile exists [Qwerty Stuff]
-            {
-            
-                if (UsefulMethods.ClosestNPC(ref this.prey, 10000, projectile.Center))
-                {
-                    shootDirection = (projectile.Center - prey.Center).ToRotation() - (float)Math.PI;
-                }
-                else
-                {
-                    shootDirection = projectile.ai[1] - (float)Math.PI;
-                }
-
-
-                actDirection = UsefulMethods.SlowRotation(actDirection, shootDirection, 4);
-                projectile.velocity.X = (float)Math.Cos(actDirection) * shootSpeed;
-                projectile.velocity.Y = (float)Math.Sin(actDirection) * shootSpeed;
-                projectile.rotation = actDirection + (float)Math.PI / 2;
-                actDirection = projectile.velocity.ToRotation();
-                
-                    else
-                    {
-                    actDirection = projectile.velocity.ToRotation();
-                    }
-            }
-            */
+         
         }
 
     }
