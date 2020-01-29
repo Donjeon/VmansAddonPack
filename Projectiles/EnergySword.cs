@@ -38,9 +38,12 @@ namespace VmansAddonPack.Projectiles
 
         }
 
-       
+        float shootDirection;
+        float actDirection;
+        float shootSpeed = 12;
+        NPC prey;
 
-    public override void AI()
+        public override void AI()
         {
    
 
@@ -87,32 +90,66 @@ namespace VmansAddonPack.Projectiles
 
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 21, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default(Color), 0.7f);
             }
-            
-            float num167 = projectile.position.X;
-            float num168 = projectile.position.Y;
+
 
             if (true) //if the projectile exists
             {
-                
-                
+
+
                 for (int i = 0; i < 200; i++) //HOming properties
                 {
                     NPC target = Main.npc[i];
-                    
-                    if (target.CanBeChasedBy()) //if the target can be chased by this projectile
-                    {
-                        //Get the shoot trajectory from the projectile and target
-                        float shootToX = target.position.X + (float)target.width * 0.5f - projectile.Center.X; 
-                        float shootToY = target.position.Y + (float)target.height * 0.5f - projectile.Center.Y;//- projectile.Center.Y; 
-                                                                                                              
-                        float Num = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - shootToX) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - shootToY); //AI taken from chlorophyte and adapted, Projectile.cs, line 31413
-                        
-                        float distance = (float)System.Math.Sqrt((double)(shootToX * shootToX + shootToY * shootToY));
 
-                        
-                        //If the distance between the live targeted npc and the projectile is less than 240 pixels
-                        if (distance < 240f && target.active)
-                        {
+
+                    if (UsefulMethods.ClosestNPC(ref this.prey, 10000, projectile.Center))
+                    {
+                        shootDirection = (projectile.Center - prey.Center).ToRotation() - (float)Math.PI;
+                    }
+                    else
+                    {
+                        shootDirection = projectile.ai[1] - (float)Math.PI;
+                    }
+
+
+                    actDirection = UsefulMethods.SlowRotation(actDirection, shootDirection, 4);
+                    projectile.velocity.X = (float)Math.Cos(actDirection) * shootSpeed;
+                    projectile.velocity.Y = (float)Math.Sin(actDirection) * shootSpeed;
+                    projectile.rotation = actDirection + (float)Math.PI / 2;
+                    actDirection = projectile.velocity.ToRotation();
+
+                
+                    else
+                    {
+                        actDirection = projectile.velocity.ToRotation();
+                    }
+                }
+            }
+
+
+        /*
+        if (true) //if the projectile exists
+        {
+
+
+            for (int i = 0; i < 200; i++) //HOming properties
+            {
+                NPC target = Main.npc[i];
+
+                if (target.CanBeChasedBy()) //if the target can be chased by this projectile
+                {
+                    //Get the shoot trajectory from the projectile and target
+                    float shootToX = target.position.X + (float)target.width * 0.5f - projectile.Center.X; 
+                    float shootToY = target.position.Y + (float)target.height * 0.5f - projectile.Center.Y;//- projectile.Center.Y; 
+
+                    float Num = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - shootToX) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - shootToY); //AI taken from chlorophyte and adapted, Projectile.cs, line 31413
+
+                    float distance = (float)System.Math.Sqrt((double)(shootToX * shootToX + shootToY * shootToY));
+
+
+                    //If the distance between the live targeted npc and the projectile is less than 240 pixels
+                    if (distance < 240f && target.active && Collision.CanHit(new Vector2(projectile.position.X + (float)(projectile.width / 2), projectile.position.Y + (float)(projectile.height / 2)), 1, 1, target.position, target.width, target.height))
+                    {
+
                             //Divide the factor, 3f, which is the desired velocity
                             distance = 3f / distance;
 
@@ -123,22 +160,25 @@ namespace VmansAddonPack.Projectiles
                             //Set the velocities to the shoot values
                             projectile.velocity.X = shootToX; //Go to this X position at the speed of ([the distance] * 5)
                             projectile.velocity.Y = shootToY;
-                        }
-                        
-                        
-                    }
-                }
-                
-            }
-            
-        }
 
+                    }
+
+
+                }
+            }
+
+        }
+        */
+
+    }
+        /*
         public void Kill() //Do something when it dies
         {
             Main.PlaySound(SoundID.Item25, projectile.position);
             Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default(Color), 0.7f);
         }
         //TODO: Get a proper sound to play on death and an explosion like jester arrows
+        */
 
     }
 }

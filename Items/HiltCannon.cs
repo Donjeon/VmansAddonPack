@@ -23,7 +23,7 @@ namespace VmansAddonPack.Items
 			item.useAnimation = 13; 
 			item.useStyle = 5; //1 for sword, 5 for staves/guns
 			item.knockBack = 8; //max 20
-			item.value = 500000; //value in copper coins
+			item.value = 350000; //value in copper coins, this is around the same cost as the megashark. a little less, could be bumped up
 			item.rare = 6; //its rarity, from -1 to 13
 			item.UseSound = SoundID.Item34; //sound it makes on use https://tconfig.fandom.com/wiki/List_of_Sounds (Sound ID + 1)
 			item.autoReuse = true; //autoswing
