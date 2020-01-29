@@ -10,7 +10,7 @@ namespace VmansAddonPack.Items
 		public override void SetStaticDefaults() 
 		{
 			// DisplayName.SetDefault("BasicSword"); // By default, capitalization in classnames will add spaces to the display name. You can customize the display name here by uncommenting this line.
-			Tooltip.SetDefault("Fires energy swords");
+			Tooltip.SetDefault("Able fire soul capsules");
 		}
 
 		public override void SetDefaults() 
@@ -46,8 +46,17 @@ namespace VmansAddonPack.Items
 		public override void AddRecipes() 
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.DirtBlock, 1);
-			recipe.AddTile(TileID.MythrilAnvil);
+
+			recipe.AddIngredient(ItemID.Shotgun, 1);
+            recipe.AddIngredient(ItemID.Excalibur, 1);
+            recipe.AddIngredient(ItemID.HallowedBar, 10);
+            recipe.AddIngredient(ItemID.SoulofFright, 5);
+            recipe.AddIngredient(ItemID.SoulofSight, 5);
+            recipe.AddIngredient(ItemID.SoulofMight, 5);
+            recipe.AddIngredient(ItemID.SoulofLight, 20);
+            recipe.AddIngredient(ItemID.SoulofNight, 20);
+
+            recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
