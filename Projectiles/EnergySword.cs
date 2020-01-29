@@ -45,6 +45,8 @@ namespace VmansAddonPack.Projectiles
 
         public override void AI()
         {
+            projectile.velocity.ToRotation();
+
             for (int i = 0; i < 200; i++) //cycle through the list of all AI that exist
             {
                 NPC target = Main.npc[i];
@@ -75,44 +77,7 @@ namespace VmansAddonPack.Projectiles
                 }
 
             }
-                /*
-                for (int i = 0; i < 200; i++) //HOming properties
-                {
-                    NPC target = Main.npc[i];
-
-                    if (target.CanBeChasedBy()) //if the target can be chased by this projectile
-                    {
-                        //Get the shoot trajectory from the projectile and target
-                        float shootToX = target.position.X + (float)target.width * 0.5f - projectile.Center.X;
-                        float shootToY = target.position.Y + (float)target.height * 0.5f - projectile.Center.Y;//- projectile.Center.Y; 
-
-                        float Num = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - shootToX) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - shootToY); //AI taken from chlorophyte and adapted, Projectile.cs, line 31413
-
-                        float distance = (float)System.Math.Sqrt((double)(shootToX * shootToX + shootToY * shootToY));
-
-
-
-                        //If the distance between the live targeted npc and the projectile is less than 240 pixels (Credit to ExampleMod https://github.com/tModLoader/tModLoader/tree/master/ExampleMod and Qwerty https://github.com/qwerty3-14/QwertysRandomContent)
-                        if (distance < 240f && target.active && Collision.CanHit(new Vector2(projectile.position.X + (float)(projectile.width / 2), projectile.position.Y + (float)(projectile.height / 2)), 1, 1, target.position, target.width, target.height))
-                        {
-
-                            //Divide the factor, 3f, which is the desired velocity
-                            distance = 3f / distance;
-
-                            //Multiply the distance by a multiplier if you wish the projectile to have go faster
-                            shootToX *= distance * 5;
-                            shootToY *= distance * 5;
-
-                            //Set the velocities to the shoot values
-                            projectile.velocity.X = shootToX; //Go to this X position at the speed of ([the distance] * 5)
-                            projectile.velocity.Y = shootToY;
-
-                        }
-
-
-                    }
-                }
-                */
+               
 
             
 
@@ -174,5 +139,43 @@ namespace VmansAddonPack.Projectiles
     }
     */
 
+    /*
+               for (int i = 0; i < 200; i++) //HOming properties
+               {
+                   NPC target = Main.npc[i];
+
+                   if (target.CanBeChasedBy()) //if the target can be chased by this projectile
+                   {
+                       //Get the shoot trajectory from the projectile and target
+                       float shootToX = target.position.X + (float)target.width * 0.5f - projectile.Center.X;
+                       float shootToY = target.position.Y + (float)target.height * 0.5f - projectile.Center.Y;//- projectile.Center.Y; 
+
+                       float Num = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - shootToX) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - shootToY); //AI taken from chlorophyte and adapted, Projectile.cs, line 31413
+
+                       float distance = (float)System.Math.Sqrt((double)(shootToX * shootToX + shootToY * shootToY));
+
+
+
+                       //If the distance between the live targeted npc and the projectile is less than 240 pixels (Credit to ExampleMod https://github.com/tModLoader/tModLoader/tree/master/ExampleMod and Qwerty https://github.com/qwerty3-14/QwertysRandomContent)
+                       if (distance < 240f && target.active && Collision.CanHit(new Vector2(projectile.position.X + (float)(projectile.width / 2), projectile.position.Y + (float)(projectile.height / 2)), 1, 1, target.position, target.width, target.height))
+                       {
+
+                           //Divide the factor, 3f, which is the desired velocity
+                           distance = 3f / distance;
+
+                           //Multiply the distance by a multiplier if you wish the projectile to have go faster
+                           shootToX *= distance * 5;
+                           shootToY *= distance * 5;
+
+                           //Set the velocities to the shoot values
+                           projectile.velocity.X = shootToX; //Go to this X position at the speed of ([the distance] * 5)
+                           projectile.velocity.Y = shootToY;
+
+                       }
+
+
+                   }
+               }
+               */
 
 }
