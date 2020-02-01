@@ -94,7 +94,7 @@ namespace VmansAddonPack.Projectiles
 
 
                         //If the distance between the live targeted npc and the projectile is less than 240 pixels
-                        if (distance < 240f && target.active)
+                        if (distance < 240f && target.active && Collision.CanHit(new Vector2(projectile.position.X + (float)(projectile.width / 2), projectile.position.Y + (float)(projectile.height / 2)), 1, 1, target.position, target.width, target.height))
                         {
                             //Divide the factor, 3f, which is the desired velocity
                             distance = 3f / distance;
